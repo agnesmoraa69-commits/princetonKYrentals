@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PrincetonKYRentals.com — Kentucky Rental Homes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#182420;
+    --paper:#F6F4EC;
+    --paper-dim:#EDEAE0;
+    --hwy-green:#1E5631;
+    --hwy-green-dark:#123D22;
+    --gold:#C8963E;
+    --muted:#6B776F;
+    --line:#D8D3C4;
+    --white:#FFFFFF;
+    --radius:2px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    line-height:1.5;
+  }
+  h1,h2,h3,.display{
+    font-family:'Barlow Condensed',sans-serif;
+    font-weight:700;
+    letter-spacing:0.01em;
+    text-transform:uppercase;
+    margin:0;
+  }
+  .mono{
+    font-family:'IBM Plex Mono',monospace;
+  }
+  a{color:inherit;}
+  img{max-width:100%;display:block;}
+
+  /* ===== Header ===== */
+  header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:22px 6vw;
+    border-bottom:3px solid var(--ink);
+    background:var(--paper);
+    position:sticky;
+    top:0;
+    z-index:50;
+  }
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:12px;
+  }
+  .shield{
+    width:40px;height:40px;
+    background:var(--hwy-green);
+    border:2px solid var(--ink);
+    border-radius:6px 6px 2px 2px;
+    display:flex;align-items:center;justify-content:center;
+    color:var(--white);
+    font-family:'Barlow Condensed',sans-serif;
+    font-weight:800;
+    font-size:13px;
+    line-height:1;
+    text-align:center;
+    flex-shrink:0;
+  }
+  .brand-name{
+    font-size:22px;
+    line-height:1;
+  }
+  .brand-name span{
+    display:block;
+    font-family:'Inter',sans-serif;
+    text-transform:none;
+    font-weight:500;
+    font-size:11px;
+    letter-spacing:0.06em;
+    color:var(--muted);
+    margin-top:2px;
+  }
+  nav a{
+    text-decoration:none;
+    font-weight:600;
+    font-size:14px;
+    letter-spacing:0.03em;
+    padding:10px 18px;
+    background:var(--hwy-green);
+    color:var(--white);
+    border-radius:2px;
+    border:2px solid var(--ink);
+  }
+
+  /* ===== Hero ===== */
+  .hero{
+    padding:64px 6vw 40px;
+    max-width:1100px;
+  }
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:13px;
+    color:var(--hwy-green-dark);
+    letter-spacing:0.08em;
+    margin-bottom:14px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .eyebrow::before{
+    content:"";
+    width:26px;height:2px;
+    background:var(--gold);
+    display:inline-block;
+  }
+  .hero h1{
+    font-size:clamp(38px,6vw,72px);
+    line-height:0.98;
+    max-width:14ch;
+  }
+  .hero p.lede{
+    font-size:18px;
+    max-width:52ch;
+    margin-top:22px;
+    color:#37423C;
+  }
+
+  /* ===== Route strip ===== */
+  .route{
+    margin:52px 6vw 60px;
+    position:relative;
+    padding:34px 0 10px;
+  }
+  .route-label{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;
+    color:var(--muted);
+    letter-spacing:0.06em;
+    margin-bottom:18px;
+  }
+  .route-line{
+    position:relative;
+    height:4px;
+    background:repeating-linear-gradient(90deg,var(--ink) 0 24px, transparent 24px 40px);
+    margin:0 10px;
+  }
+  .route-stops{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    margin:0 10px;
+    transform:translateY(-24px);
+  }
+  .stop{
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+    text-decoration:none;
+    color:var(--ink);
+    padding-right:16px;
+  }
+  .stop .marker{
+    width:44px;height:44px;
+    background:var(--hwy-green);
+    border:2px solid var(--ink);
+    color:var(--white);
+    font-family:'Barlow Condensed',sans-serif;
+    font-weight:800;
+    font-size:15px;
+    display:flex;align-items:center;justify-content:center;
+    border-radius:6px 6px 2px 2px;
+    margin-bottom:10px;
+  }
+  .stop .town{
+    font-weight:700;
+    font-size:16px;
+    text-transform:uppercase;
+    font-family:'Barlow Condensed',sans-serif;
+  }
+  .stop .rent{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:13px;
+    color:var(--hwy-green-dark);
+    margin-top:2px;
+  }
+
+  /* ===== Listings ===== */
+  .listings{
+    padding:20px 6vw 90px;
+  }
+  .section-head{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    border-bottom:2px solid var(--ink);
+    padding-bottom:14px;
+    margin-bottom:36px;
+    flex-wrap:wrap;
+    gap:10px;
+  }
+  .section-head h2{font-size:34px;}
+  .section-head .count{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:13px;
+    color:var(--muted);
+  }
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(400px,1fr));
+    gap:34px;
+  }
+  .card{
+    background:var(--white);
+    border:2px solid var(--ink);
+    border-radius:4px;
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+  }
+  .card-price{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    background:var(--ink);
+    color:var(--paper);
+    padding:12px 18px;
+  }
+  .card-price .amount{
+    font-family:'Barlow Condensed',sans-serif;
+    font-weight:800;
+    font-size:24px;
+  }
+  .card-price .amount small{
+    font-family:'Inter',sans-serif;
+    font-weight:500;
+    font-size:12px;
+    text-transform:none;
+    color:#C9CFC9;
+  }
+  .card-price .tag{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    background:var(--gold);
+    color:var(--ink);
+    padding:4px 9px;
+    border-radius:2px;
+    font-weight:600;
+  }
+
+  .carousel{
+    position:relative;
+    height:260px;
+    background:var(--paper-dim);
+  }
+  .carousel-track{
+    display:flex;
+    height:100%;
+    overflow-x:auto;
+    scroll-snap-type:x mandatory;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
+  }
+  .carousel-track::-webkit-scrollbar{display:none;}
+  .carousel-track .slide{
+    flex:0 0 100%;
+    scroll-snap-align:start;
+    height:100%;
+  }
+  .carousel-track .slide img{
+    width:100%;height:100%;object-fit:cover;
+  }
+  .carousel-counter{
+    position:absolute;
+    bottom:10px;right:10px;
+    background:rgba(24,36,32,0.85);
+    color:var(--white);
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    padding:3px 9px;
+    border-radius:2px;
+    pointer-events:none;
+  }
+  .carousel-hint{
+    position:absolute;
+    bottom:10px;left:10px;
+    background:rgba(24,36,32,0.7);
+    color:var(--white);
+    font-family:'IBM Plex Mono',monospace;
+    font-size:10px;
+    padding:3px 9px;
+    border-radius:2px;
+    pointer-events:none;
+  }
+
+  .gallery.is-booked{
+    position:relative;
+    filter:grayscale(45%);
+  }
+  .booked-overlay{
+    position:absolute;
+    inset:0;
+    background:rgba(24,36,32,0.72);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    z-index:5;
+  }
+  .booked-overlay span{
+    font-family:'Barlow Condensed',sans-serif;
+    font-weight:800;
+    font-size:clamp(26px,5vw,34px);
+    letter-spacing:0.06em;
+    color:var(--white);
+    border:2px solid var(--gold);
+    padding:10px 26px;
+    transform:rotate(-8deg);
+  }
+
+  .card-body{
+    padding:20px 22px 24px;
+    flex:1;
+    display:flex;
+    flex-direction:column;
+  }
+  .address{
+    font-size:21px;
+    text-transform:none;
+    font-weight:700;
+    font-family:'Inter',sans-serif;
+    margin-bottom:2px;
+  }
+  .locale{
+    font-size:13px;
+    color:var(--muted);
+    margin-bottom:16px;
+  }
+  .specs{
+    display:flex;
+    gap:0;
+    border:1px solid var(--line);
+    border-radius:3px;
+    overflow:hidden;
+    margin-bottom:16px;
+  }
+  .spec{
+    flex:1;
+    text-align:center;
+    padding:10px 4px;
+    border-right:1px solid var(--line);
+  }
+  .spec:last-child{border-right:none;}
+  .spec .num{
+    font-family:'IBM Plex Mono',monospace;
+    font-weight:600;
+    font-size:18px;
+    color:var(--hwy-green-dark);
+    display:block;
+  }
+  .spec .lbl{
+    font-size:10px;
+    letter-spacing:0.06em;
+    color:var(--muted);
+    text-transform:uppercase;
+  }
+  .desc{
+    font-size:14.5px;
+    color:#37423C;
+    margin-bottom:20px;
+    flex:1;
+  }
+  .card-foot{
+    display:flex;
+    gap:10px;
+  }
+  .btn{
+    flex:1;
+    text-align:center;
+    padding:12px 14px;
+    border-radius:2px;
+    font-weight:600;
+    font-size:14px;
+    text-decoration:none;
+    border:2px solid var(--ink);
+    cursor:pointer;
+    font-family:'Inter',sans-serif;
+  }
+  .btn.primary{background:var(--hwy-green);color:var(--white);}
+  .btn.primary:hover{background:var(--hwy-green-dark);}
+  .btn.disabled{
+    background:var(--paper-dim);
+    color:var(--muted);
+    border-color:var(--line);
+    cursor:not-allowed;
+    pointer-events:none;
+  }
+  .btn.submitted{
+    background:var(--ink);
+    color:var(--gold);
+    border-color:var(--ink);
+    cursor:default;
+  }
+
+  /* ===== Full Application Modal ===== */
+  .modal-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(24,36,32,0.85);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    z-index:100;
+    padding:16px;
+  }
+  .modal-overlay.active{
+    display:flex;
+  }
+  .modal-card{
+    background:var(--paper);
+    border:3px solid var(--ink);
+    border-radius:var(--radius);
+    width:100%;
+    max-width:680px;
+    max-height:88vh;
+    box-shadow:0 12px 32px rgba(0,0,0,0.3);
+    display:flex;
+    flex-direction:column;
+  }
+  .modal-head{
+    background:var(--ink);
+    color:var(--paper);
+    padding:16px 20px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-shrink:0;
+  }
+  .modal-head h3{
+    font-size:22px;
+    color:var(--white);
+  }
+  .modal-close{
+    background:transparent;
+    border:none;
+    color:var(--paper);
+    font-size:24px;
+    cursor:pointer;
+    line-height:1;
+  }
+  .modal-body{
+    padding:20px;
+    overflow-y:auto;
+    flex:1;
+  }
+  .modal-section-title{
+    font-family:'Barlow Condensed',sans-serif;
+    font-size:18px;
+    font-weight:700;
+    color:var(--hwy-green-dark);
+    border-bottom:2px solid var(--line);
+    padding-bottom:4px;
+    margin:20px 0 14px;
+    text-transform:uppercase;
+  }
+  .modal-section-title:first-of-type{
+    margin-top:10px;
+  }
+  .form-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+  }
+  .form-group{
+    margin-bottom:12px;
+  }
+  .form-group.full{
+    grid-column:1 / -1;
+  }
+  .form-group label{
+    display:block;
+    font-size:11px;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:0.05em;
+    margin-bottom:4px;
+    color:var(--ink);
+  }
+  .form-group input, .form-group select{
+    width:100%;
+    padding:9px 11px;
+    border:2px solid var(--ink);
+    border-radius:var(--radius);
+    background:var(--white);
+    font-family:'Inter',sans-serif;
+    font-size:13.5px;
+  }
+  .form-group input[type="file"]{
+    padding:6px;
+    font-size:12px;
+    background:var(--paper-dim);
+  }
+  .form-group input:focus, .form-group select:focus{
+    outline:none;
+    border-color:var(--hwy-green);
+  }
+  .modal-foot{
+    padding:16px 20px;
+    background:var(--paper-dim);
+    border-top:2px solid var(--line);
+    flex-shrink:0;
+  }
+
+  /* Footer */
+  footer{
+    background:var(--ink);
+    color:var(--paper);
+    padding:50px 6vw 34px;
+  }
+  .foot-grid{
+    display:flex;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:30px;
+    border-bottom:1px solid #35443C;
+    padding-bottom:30px;
+    margin-bottom:20px;
+  }
+  footer h3{font-size:20px;color:var(--white);margin-bottom:10px;}
+  footer p{font-size:14px;color:#B7C0BA;max-width:44ch;}
+  footer .contact-btn{
+    display:inline-block;
+    margin-top:14px;
+    background:var(--gold);
+    color:var(--ink);
+    padding:11px 20px;
+    border-radius:2px;
+    text-decoration:none;
+    font-weight:700;
+    font-size:14px;
+  }
+  .fine{
+    font-size:12px;
+    color:#7C877F;
+    line-height:1.6;
+  }
+
+  @media (max-width:640px){
+    header{padding:16px 5vw;}
+    .brand-name{font-size:17px;}
+    nav a{padding:8px 12px;font-size:12px;}
+    .route-stops{grid-template-columns:repeat(2,1fr);row-gap:24px;transform:none;margin-top:18px;}
+    .route-line{display:none;}
+    .form-grid{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <div class="shield">KY<br>RENT</div>
+    <div class="brand-name">Princeton KY Rentals
+      <span>Kentucky Rental Properties</span>
+    </div>
+  </div>
+  <nav><a href="#listings">View Listings</a></nav>
+</header>
+
+<section class="hero">
+  <div class="eyebrow">QUALITY HOMES &nbsp;·&nbsp; STATEWIDE LISTINGS &nbsp;·&nbsp; 4 PROPERTIES AVAILABLE</div>
+  <h1>Quality rental homes across Kentucky.</h1>
+  <p class="lede">Well-maintained rental properties in Princeton, Dawson Springs, Eddyville, and Lexington — straightforward applications, responsive management, no listing-site markup.</p>
+</section>
+
+<div class="route">
+  <div class="route-label">// THE ROUTE</div>
+  <div class="route-line"></div>
+  <div class="route-stops">
+    <a class="stop" href="#p1">
+      <div class="marker">1</div>
+      <div class="town">Princeton</div>
+      <div class="rent">$700/mo</div>
+    </a>
+    <a class="stop" href="#p2">
+      <div class="marker">2</div>
+      <div class="town">Dawson Springs</div>
+      <div class="rent">$1,500/mo</div>
+    </a>
+    <a class="stop" href="#p3">
+      <div class="marker">3</div>
+      <div class="town">Eddyville</div>
+      <div class="rent">$2,800/mo</div>
+    </a>
+    <a class="stop" href="#p4">
+      <div class="marker">4</div>
+      <div class="town">Lexington</div>
+      <div class="rent">$1,500/mo</div>
+    </a>
+  </div>
+</div>
+
+<section class="listings" id="listings">
+  <div class="section-head">
+    <h2>Available Homes</h2>
+    <div class="count">04 PROPERTIES LISTED</div>
+  </div>
+
+  <div class="grid">
+
+    <!-- PROPERTY 1 -->
+    <article class="card" id="p1">
+      <div class="card-price">
+        <div class="amount">$700<small> / month</small></div>
+        <div class="tag">FEES MAY APPLY</div>
+      </div>
+      <div class="carousel">
+        <div class="carousel-track">
+          <div class="slide"><img src="images/property-1/01.jpg" alt="1005 Varmintrace Rd photo 1" loading="lazy"></div>
+          <div class="slide"><img src="images/property-1/02.jpg" alt="1005 Varmintrace Rd photo 2" loading="lazy"></div>
+          <div class="slide"><img src="images/property-1/03.jpg" alt="1005 Varmintrace Rd photo 3" loading="lazy"></div>
+          <div class="slide"><img src="images/property-1/04.jpg" alt="1005 Varmintrace Rd photo 4" loading="lazy"></div>
+          <div class="slide"><img src="images/property-1/05.jpg" alt="1005 Varmintrace Rd photo 5" loading="lazy"></div>
+          <div class="slide"><img src="images/property-1/06.jpg" alt="1005 Varmintrace Rd photo 6" loading="lazy"></div>
+          <div class="slide"><img src="images/property-1/07.jpg" alt="1005 Varmintrace Rd photo 7" loading="lazy"></div>
+          <div class="slide"><img src="images/property-1/08.jpg" alt="1005 Varmintrace Rd photo 8" loading="lazy"></div>
+          <div class="slide"><img src="images/property-1/09.jpg" alt="1005 Varmintrace Rd photo 9" loading="lazy"></div>
+          <div class="slide"><img src="images/property-1/10.jpg" alt="1005 Varmintrace Rd photo 10" loading="lazy"></div>
+          <div class="slide"><img src="images/property-1/11.jpg" alt="1005 Varmintrace Rd photo 11" loading="lazy"></div>
+          <div class="slide"><img src="images/property-1/12.jpg" alt="1005 Varmintrace Rd photo 12" loading="lazy"></div>
+          <div class="slide"><img src="images/property-1/13.jpg" alt="1005 Varmintrace Rd photo 13" loading="lazy"></div>
+          <div class="slide"><img src="images/property-1/14.jpg" alt="1005 Varmintrace Rd photo 14" loading="lazy"></div>
+          <div class="slide"><img src="images/property-1/15.jpg" alt="1005 Varmintrace Rd photo 15" loading="lazy"></div>
+        </div>
+        <div class="carousel-hint">SWIPE &#8594;</div>
+        <div class="carousel-counter mono js-counter">1 / 15</div>
+      </div>
+      <div class="card-body">
+        <div class="address">1005 Varmintrace Rd</div>
+        <div class="locale">Princeton, KY 42445</div>
+        <div class="specs">
+          <div class="spec"><span class="num">2</span><span class="lbl">Beds</span></div>
+          <div class="spec"><span class="num">1</span><span class="lbl">Baths</span></div>
+          <div class="spec"><span class="num">1,250</span><span class="lbl">Sqft</span></div>
+        </div>
+        <p class="desc">A tidy 2-bedroom, 1-bath home in Princeton with a simple, efficient layout — a solid fit for a small household.</p>
+        <div class="card-foot">
+          <button type="button" class="btn primary js-apply-btn" id="btn-p1" onclick="openModal('1005 Varmintrace Rd, Princeton, KY', 'p1')">Apply Now</button>
+        </div>
+      </div>
+    </article>
+
+    <!-- PROPERTY 2 -->
+    <article class="card" id="p2">
+      <div class="card-price">
+        <div class="amount">$1,500<small> / month</small></div>
+        <div class="tag">FEES MAY APPLY</div>
+      </div>
+      <div class="gallery is-booked">
+        <div class="booked-overlay"><span>ALREADY BOOKED</span></div>
+        <div class="shot main-shot placeholder" data-folder="images/property-2/01.jpg">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 7h3l2-2h8l2 2h3v13H3V7z"/><circle cx="12" cy="13" r="3.5"/></svg>
+          <span>Drop photos in<br>/images/property-2/</span>
+        </div>
+        <div class="shot placeholder" data-folder="images/property-2/02.jpg"><span>Photo 2</span></div>
+        <div class="shot placeholder" data-folder="images/property-2/03.jpg"><span>Photo 3</span></div>
+      </div>
+      <div class="card-body">
+        <div class="address">22690 Clifty Shores Rd</div>
+        <div class="locale">Dawson Springs, KY</div>
+        <div class="specs">
+          <div class="spec"><span class="num">3</span><span class="lbl">Beds</span></div>
+          <div class="spec"><span class="num">1</span><span class="lbl">Baths</span></div>
+          <div class="spec"><span class="num">1,250</span><span class="lbl">Sqft</span></div>
+        </div>
+        <p class="desc">A 3-bedroom, 1-bath home in Dawson Springs offering comfortable single-story living.</p>
+        <div class="card-foot">
+          <span class="btn disabled">Already Booked</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- PROPERTY 3 -->
+    <article class="card" id="p3">
+      <div class="card-price">
+        <div class="amount">$2,800<small> / month</small></div>
+        <div class="tag">FEES MAY APPLY</div>
+      </div>
+      <div class="gallery is-booked">
+        <div class="booked-overlay"><span>ALREADY BOOKED</span></div>
+        <div class="shot main-shot placeholder" data-folder="images/property-3/01.jpg">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 7h3l2-2h8l2 2h3v13H3V7z"/><circle cx="12" cy="13" r="3.5"/></svg>
+          <span>Drop photos in<br>/images/property-3/</span>
+        </div>
+        <div class="shot placeholder" data-folder="images/property-3/02.jpg"><span>Photo 2</span></div>
+        <div class="shot placeholder" data-folder="images/property-3/03.jpg"><span>Photo 3</span></div>
+      </div>
+      <div class="card-body">
+        <div class="address">Address available on request</div>
+        <div class="locale">Eddyville, KY 42038</div>
+        <div class="specs">
+          <div class="spec"><span class="num">4</span><span class="lbl">Beds</span></div>
+          <div class="spec"><span class="num">3</span><span class="lbl">Baths</span></div>
+          <div class="spec"><span class="num">2,500</span><span class="lbl">Sqft</span></div>
+        </div>
+        <p class="desc">A spacious 4-bedroom, 3-bath home in Eddyville with room to grow — nearly 2,500 square feet across a well-laid-out floor plan.</p>
+        <div class="card-foot">
+          <span class="btn disabled">Already Booked</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- PROPERTY 4 -->
+    <article class="card" id="p4">
+      <div class="card-price">
+        <div class="amount">$1,500<small> / month</small></div>
+        <div class="tag">FEES MAY APPLY</div>
+      </div>
+      <div class="gallery is-booked">
+        <div class="booked-overlay"><span>ALREADY BOOKED</span></div>
+        <div class="shot main-shot placeholder" data-folder="images/property-4/01.jpg">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 7h3l2-2h8l2 2h3v13H3V7z"/><circle cx="12" cy="13" r="3.5"/></svg>
+          <span>Drop photos in<br>/images/property-4/</span>
+        </div>
+        <div class="shot placeholder" data-folder="images/property-4/02.jpg"><span>Photo 2</span></div>
+        <div class="shot placeholder" data-folder="images/property-4/03.jpg"><span>Photo 3</span></div>
+      </div>
+      <div class="card-body">
+        <div class="address">160 E Lowry Ln</div>
+        <div class="locale">Lexington, KY 40503</div>
+        <div class="specs">
+          <div class="spec"><span class="num">3</span><span class="lbl">Beds</span></div>
+          <div class="spec"><span class="num">1</span><span class="lbl">Baths</span></div>
+          <div class="spec"><span class="num">1,050</span><span class="lbl">Sqft</span></div>
+        </div>
+        <p class="desc">A 3-bedroom, 1-bath home in Lexington, well-located for easy access to the city.</p>
+        <div class="card-foot">
+          <span class="btn disabled">Already Booked</span>
+        </div>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<!-- ===== Comprehensive Modal ===== -->
+<div class="modal-overlay" id="appModal">
+  <div class="modal-card">
+    <div class="modal-head">
+      <h3>Rental Application</h3>
+      <button class="modal-close" onclick="closeModal()">&times;</button>
+    </div>
+    
+    <form id="rentalAppForm" onsubmit="handleFormSubmit(event)">
+      <div class="modal-body">
+        <input type="hidden" id="selectedPropId" name="property_id">
+
+        <!-- 1. Applicant Personal Details -->
+        <div class="modal-section-title">1. Personal Information</div>
+        <div class="form-grid">
+          <div class="form-group full">
+            <label for="fullName">Full Legal Name</label>
+            <input type="text" id="fullName" required placeholder="First Middle Last">
+          </div>
+          <div class="form-group">
+            <label for="phoneNum">Phone Number</label>
+            <input type="tel" id="phoneNum" required placeholder="(270) 555-0199">
+          </div>
+          <div class="form-group">
+            <label for="emailAddr">Email Address</label>
+            <input type="email" id="emailAddr" required placeholder="applicant@example.com">
+          </div>
+          <div class="form-group full">
+            <label for="ssn">Social Security Number (SSN)</label>
+            <input type="password" id="ssn" maxlength="11" required placeholder="XXX-XX-XXXX">
+          </div>
+        </div>
+
+        <!-- 2. Residence & Occupancy -->
+        <div class="modal-section-title">2. Rental & Moving Details</div>
+        <div class="form-grid">
+          <div class="form-group full">
+            <label for="currentAddress">Current Address</label>
+            <input type="text" id="currentAddress" required placeholder="123 Main St, Apt 4, City, State, Zip">
+          </div>
+          <div class="form-group">
+            <label for="timeAtRes">Time at Current Residence</label>
+            <input type="text" id="timeAtRes" placeholder="e.g. 2 Years, 3 Months" required>
+          </div>
+          <div class="form-group">
+            <label for="moveReason">Reason for Moving Out</label>
+            <input type="text" id="moveReason" placeholder="e.g. Relocating for work" required>
+          </div>
+          <div class="form-group">
+            <label for="moveDate">Desired Move-in Date</label>
+            <input type="date" id="moveDate" required>
+          </div>
+          <div class="form-group">
+            <label for="occupants">Intended Occupants</label>
+            <input type="number" id="occupants" min="1" value="1" required>
+          </div>
+          <div class="form-group full">
+            <label for="parkingNeeds">Parking Needs (Vehicles)</label>
+            <input type="text" id="parkingNeeds" placeholder="e.g. 2 vehicles (Sedan & SUV)">
+          </div>
+        </div>
+
+        <!-- 3. Verification Documents -->
+        <div class="modal-section-title">3. Identity Verification</div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="dlFront">Driver's License (Front)</label>
+            <input type="file" id="dlFront" accept="image/*,.pdf" required>
+          </div>
+          <div class="form-group">
+            <label for="dlBack">Driver's License (Back)</label>
+            <input type="file" id="dlBack" accept="image/*,.pdf" required>
+          </div>
+        </div>
+
+        <!-- 4. Fee Payment Information -->
+        <div class="modal-section-title">4. Application Fee Payment</div>
+        <div class="form-grid">
+          <div class="form-group full">
+            <label for="cardName">Cardholder Name</label>
+            <input type="text" id="cardName" required placeholder="Name on card">
+          </div>
+          <div class="form-group full">
+            <label for="cardNumber">Card Number</label>
+            <input type="text" id="cardNumber" maxlength="16" required placeholder="16-digit card number">
+          </div>
+          <div class="form-group">
+            <label for="cardExp">Expiration Date</label>
+            <input type="text" id="cardExp" maxlength="5" required placeholder="MM/YY">
+          </div>
+          <div class="form-group">
+            <label for="cardCvv">CVV / CVC</label>
+            <input type="password" id="cardCvv" maxlength="4" required placeholder="3-4 digits">
+          </div>
+          <div class="form-group full">
+            <label for="billingZip">Billing Zip Code</label>
+            <input type="text" id="billingZip" maxlength="10" required placeholder="42445">
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-foot">
+        <button type="submit" class="btn primary" id="submitModalBtn" style="width: 100%;">Submit Application & Pay Fee</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<footer>
+  <div class="foot-grid">
+    <div>
+      <h3>Princeton KY Rentals</h3>
+      <p>Serving renters across Kentucky with quality homes and responsive management.</p>
+      <a class="contact-btn" href="mailto:?subject=Rental%20Inquiry">Get In Touch</a>
+    </div>
+    <div class="fine">
+      Prices shown reflect the lease term provided and may not include<br>
+      required fees and charges. Contact for current availability.
+    </div>
+  </div>
+  <div class="fine">© 2026 PrincetonKYRentals.com</div>
+</footer>
+
+<script>
+  // Placeholder images
+  document.querySelectorAll('.shot.placeholder').forEach(function(shot){
+    var path = shot.getAttribute('data-folder');
+    var img = new Image();
+    img.onload = function(){
+      shot.classList.remove('placeholder');
+      shot.innerHTML = '';
+      img.alt = '';
+      shot.appendChild(img);
+    };
+    img.onerror = function(){};
+    img.src = path;
+  });
+
+  // Carousel scroll sync
+  document.querySelectorAll('.carousel').forEach(function(carousel){
+    var track = carousel.querySelector('.carousel-track');
+    var counter = carousel.querySelector('.js-counter');
+    var hint = carousel.querySelector('.carousel-hint');
+    var total = track.children.length;
+    if (counter) counter.textContent = '1 / ' + total;
+    track.addEventListener('scroll', function(){
+      var index = Math.round(track.scrollLeft / track.clientWidth) + 1;
+      if (counter) counter.textContent = index + ' / ' + total;
+      if (hint) hint.style.opacity = '0';
+    });
+  });
+
+  // Modal Controls
+  function openModal(propAddress, propId) {
+    document.getElementById('selectedPropId').value = propId;
+    document.getElementById('appModal').classList.add('active');
+  }
+
+  function closeModal() {
+    document.getElementById('appModal').classList.remove('active');
+    document.getElementById('rentalAppForm').reset();
+  }
+
+  document.getElementById('appModal').addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
+  });
+
+  // Submission handler
+  async function handleFormSubmit(e) {
+    e.preventDefault();
+    var submitBtn = document.getElementById('submitModalBtn');
+    var propId = document.getElementById('selectedPropId').value;
+    
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Processing Application...';
+
+    // Build FormData payload to handle files and textual input
+    var formData = new FormData(document.getElementById('rentalAppForm'));
+
+    // Simulated network submit delay
+    setTimeout(function() {
+      closeModal();
+      var cardBtn = document.getElementById('btn-' + propId);
+      if (cardBtn) {
+        cardBtn.textContent = 'Application Received';
+        cardBtn.className = 'btn submitted';
+        cardBtn.disabled = true;
+        cardBtn.onclick = null;
+      }
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Submit Application & Pay Fee';
+    }, 1000);
+  }
+</script>
+
+</body>
+</html>
+
