@@ -37,7 +37,32 @@
   }
   .mono{font-family:'IBM Plex Mono',monospace;}
   a{color:inherit;}
+.carousel { position: relative; }
 
+.booked-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.booked-overlay span {
+  font-family: monospace, sans-serif;
+  font-weight: 900;
+  font-size: clamp(1.8rem, 8vw, 3rem);
+  color: #fff;
+  border: 4px solid #fff;
+  padding: 0.2em 0.6em;
+  transform: rotate(-12deg);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  background: rgba(180, 30, 30, 0.85);
+    }
+  
   /* ===== Header ===== */
   header{
     display:flex;
@@ -327,9 +352,84 @@
       </div>
     </article>
 
-    <!-- PASTE PROPERTY 2 HERE -->
-    <!-- PASTE PROPERTY 3 HERE -->
-    <!-- PASTE PROPERTY 4 HERE -->
+    <!-- PASTE PROPERTY 2 HERE --><article class="card booked" id="p2">
+  <div class="card-price">
+    <div class="amount">$1,500<small> / month</small></div>
+    <div class="tag">$5 APP FEE</div>
+  </div>
+  <div class="carousel">
+    <div class="carousel-track">
+      <div class="slide"><img src="images/property-2/01.jpg" alt="203 Prince Ct" loading="lazy"></div>
+    </div>
+    <div class="carousel-counter mono js-counter">1 / 1</div>
+    <div class="booked-overlay"><span>BOOKED</span></div>
+  </div>
+  <div class="card-body">
+    <div class="address">203 Prince Ct</div>
+    <div class="locale">Princeton, KY 42445</div>
+    <div class="specs">
+      <div class="spec"><span class="num">3</span><span class="lbl">bd</span></div>
+      <div class="spec"><span class="num">1</span><span class="lbl">ba</span></div>
+      <div class="spec"><span class="num">1,038</span><span class="lbl">sqft</span></div>
+    </div>
+    <p class="desc">A charming 3-bedroom home in Dawson Springs.</p>
+    <div class="card-foot">
+      <button type="button" class="btn primary" id="btn-p2" disabled>Unavailable</button>
+    </div>
+  </div>
+    </article>
+    <!-- PASTE PROPERTY 3 HERE --><article class="card booked" id="p3">
+  <div class="card-price">
+    <div class="amount">$2,800<small> / month</small></div>
+    <div class="tag">$5 APP FEE</div>
+  </div>
+  <div class="carousel">
+    <div class="carousel-track">
+      <div class="slide"><img src="images/property-3/01.jpg" alt="607 N Jefferson St" loading="lazy"></div>
+    </div>
+    <div class="carousel-counter mono js-counter">1 / 1</div>
+    <div class="booked-overlay"><span>BOOKED</span></div>
+  </div>
+  <div class="card-body">
+    <div class="address">607 N Jefferson St</div>
+    <div class="locale">Princeton, KY 42445</div>
+    <div class="specs">
+      <div class="spec"><span class="num">4</span><span class="lbl">bd</span></div>
+      <div class="spec"><span class="num">2</span><span class="lbl">ba</span></div>
+      <div class="spec"><span class="num">2,008</span><span class="lbl">sqft</span></div>
+    </div>
+    <p class="desc">A spacious 4-bedroom home in Eddyville.</p>
+    <div class="card-foot">
+      <button type="button" class="btn primary" id="btn-p3" disabled>Unavailable</button>
+    </div>
+  </div>
+    </article>
+    <!-- PASTE PROPERTY 4 HERE --><article class="card booked" id="p4">
+  <div class="card-price">
+    <div class="amount">$1,500<small> / month</small></div>
+    <div class="tag">$5 APP FEE</div>
+  </div>
+  <div class="carousel">
+    <div class="carousel-track">
+      <div class="slide"><img src="images/property-4/01.jpg" alt="601 W Locust St" loading="lazy"></div>
+    </div>
+    <div class="carousel-counter mono js-counter">1 / 1</div>
+    <div class="booked-overlay"><span>BOOKED</span></div>
+  </div>
+  <div class="card-body">
+    <div class="address">601 W Locust St</div>
+    <div class="locale">Princeton, KY 42445</div>
+    <div class="specs">
+      <div class="spec"><span class="num">4</span><span class="lbl">bd</span></div>
+      <div class="spec"><span class="num">2</span><span class="lbl">ba</span></div>
+      <div class="spec"><span class="num">1,583</span><span class="lbl">sqft</span></div>
+    </div>
+    <p class="desc">A roomy 4-bedroom home in Lexington.</p>
+    <div class="card-foot">
+      <button type="button" class="btn primary" id="btn-p4" disabled>Unavailable</button>
+    </div>
+  </div>
+    </article>
 
   </div>
 </section>
